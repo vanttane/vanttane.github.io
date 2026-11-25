@@ -22,6 +22,7 @@
 <link rel="apple-touch-icon" href="icone-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -374,6 +375,49 @@ section{position:relative;padding:clamp(96px,14vh,160px) var(--gut)}
 @media(max-width:1180px){.topo-nav{display:none}}
 @media(max-width:640px){.topo{grid-template-columns:auto 1fr auto}}
 .menu nav a{font-size:clamp(30px,5.4vw,84px)}
+
+/* ---------- fotografia: carrossel ---------- */
+.mono{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;text-transform:uppercase;letter-spacing:.04em}
+.fotos-sec{padding:0!important;position:relative}
+.fx-palco{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#0a0a0a;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+#fx-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.fx-labels{position:absolute;inset:0;pointer-events:none}
+.fx-lab{position:absolute;left:0;top:0;transform-origin:0 100%;font-size:max(9px,.74vw);color:rgba(231,228,238,.62);white-space:nowrap;will-change:transform}
+.fx-cab{position:absolute;left:clamp(20px,5vw,72px);top:calc(84px + env(safe-area-inset-top,0px));display:flex;gap:18px;flex-wrap:wrap;font-size:max(9px,.74vw);color:rgba(231,228,238,.56);z-index:2}
+.fx-modo{position:absolute;right:clamp(20px,5vw,72px);top:calc(84px + env(safe-area-inset-top,0px));font-size:max(9px,.74vw);color:#e7e4ee;z-index:2}
+.fx-titulo{position:absolute;left:29%;top:83.5%;transform:translateY(-50%);font-size:4.5vw;font-weight:400;letter-spacing:.02em;white-space:pre;color:#e7e4ee;z-index:2;transition:opacity .4s}
+.fx-regua{position:absolute;left:29%;top:91.6%;width:13.8%;height:1px;background:rgba(231,228,238,.5);z-index:2;transition:opacity .4s}
+.fx-regua i{position:absolute;left:0;top:-3px;width:1px;height:7px;background:#e7e4ee;transition:left .6s cubic-bezier(.16,1,.3,1)}
+.fx-cont{position:absolute;left:calc(29% + 13.8% + 14px);top:91.6%;transform:translateY(-50%);font-size:max(9px,.74vw);color:rgba(231,228,238,.56);z-index:2;transition:opacity .4s}
+.fx-dica{position:absolute;left:50%;bottom:2.1%;transform:translateX(-50%);font-size:max(9px,.74vw);color:rgba(231,228,238,.42);white-space:nowrap;z-index:2}
+.fx-em-grade .fx-titulo,.fx-em-grade .fx-regua,.fx-em-grade .fx-cont{opacity:0}
+@media(max-width:759px){.fx-titulo{left:6%;top:82%;font-size:8.4vw}.fx-regua{left:6%;top:89%;width:50%}.fx-cont{left:60%;top:89%}.fx-cred{display:none}}
+/* faixa simples (sem WebGL ou arquivo aberto do computador) */
+.fx-simples{height:auto;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:140px 0 120px}
+.fx-simples canvas,.fx-simples .fx-regua,.fx-simples .fx-cont,.fx-simples .fx-modo{display:none}
+.fx-simples .fx-titulo{position:static;transform:none;margin:24px clamp(20px,5vw,72px) 0;order:3}
+.fx-faixa{display:flex;gap:14px;overflow-x:auto;padding:0 clamp(20px,5vw,72px);scroll-snap-type:x mandatory}
+.fx-faixa button{flex:none;width:clamp(180px,18vw,280px);scroll-snap-align:start;text-align:left}
+.fx-faixa img{width:100%;aspect-ratio:.68;object-fit:cover;border-radius:6px;display:block;margin-top:6px}
+.fx-faixa span{font-size:10px;color:rgba(231,228,238,.62)}
+/* detalhe */
+.fx-detalhe{position:fixed;inset:0;z-index:85;background:rgba(15,14,20,.94);display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:4vw;padding:6vh 6vw;clip-path:inset(50% 0 50% 0);visibility:hidden;transition:clip-path .7s cubic-bezier(.77,0,.18,1),visibility 0s .7s}
+.fx-detalhe.aberto{clip-path:inset(0);visibility:visible;transition:clip-path .7s cubic-bezier(.77,0,.18,1)}
+.fx-det-fechar{position:absolute;top:28px;right:6vw;font-size:12px;color:#e7e4ee}
+.fx-det-foto{position:relative;justify-self:end;height:min(76vh,1000px);aspect-ratio:.68;border-radius:.6vw;overflow:hidden;background:#111}
+.fx-det-foto img{width:100%;height:100%;object-fit:cover;display:block}
+.fx-det-blocos{position:absolute;inset:0;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(7,1fr)}
+.fx-det-blocos i{background:#0b0b0f;transition:opacity .01s}
+.fx-det-blocos.some i{opacity:0}
+.fx-det-num{font-size:12px;color:rgba(231,228,238,.56)}
+.fx-det-tit{font-size:clamp(28px,4.5vw,72px);font-weight:400;line-height:1.05;margin:14px 0 8px;color:#e7e4ee}
+.fx-det-cli{font-size:13px;color:#ff5a4f}
+.fx-det-desc{max-width:44ch;line-height:1.7;color:#c9c9c9;margin-top:20px}
+.fx-det-cred{font-size:12px;color:rgba(231,228,238,.56);margin-top:20px}
+.fx-det-nav{display:flex;gap:10px;margin-top:28px}
+@media(max-width:759px){.fx-detalhe{grid-template-columns:1fr;align-content:center;gap:24px;overflow-y:auto}.fx-det-foto{justify-self:center;height:56vh}}
+/* Menu+ só quando os botões do topo não cabem (tablet e celular) */
+@media(min-width:1181px){#abre-menu{display:none}}
 </style>
 </head>
 <body>
@@ -499,11 +543,31 @@ section{position:relative;padding:clamp(96px,14vh,160px) var(--gut)}
   </span>
 </a>
 
-<!-- ================= FOTOGRAFIA (aparece quando houver fotos) ================= -->
-<section id="fotos" class="fotos-sec" hidden>
-  <div class="cab rev"><h2 class="cap">Fotografia</h2><p class="rot paren">(Autonomia Facial · Bloco Os Piores · fotos @crizanleone)</p></div>
-  <div class="fotos-grade" id="fotos-grade"></div>
+<!-- ================= FOTOGRAFIA: carrossel WebGL ================= -->
+<section id="fotos" class="fotos-sec">
+  <div class="fx-palco" id="fx-palco">
+    <canvas id="fx-canvas" aria-hidden="true"></canvas>
+    <div class="fx-labels" id="fx-labels" aria-hidden="true"></div>
+    <p class="fx-cab mono"><span>(Fotografia)</span><span class="fx-cred">Autonomia Facial · Bloco Os Piores · fotos @crizanleone</span></p>
+    <button class="fx-modo mono link-sub" id="fx-modo">Grade</button>
+    <div class="fx-titulo mono" id="fx-titulo" aria-live="polite">FOTOGRAFIA</div>
+    <div class="fx-regua" aria-hidden="true"><i id="fx-tick"></i></div>
+    <div class="fx-cont mono" id="fx-cont">01 / 20</div>
+    <div class="fx-dica mono">Role ou arraste · clique para ampliar</div>
+  </div>
 </section>
+<div class="fx-detalhe" id="fx-detalhe" aria-hidden="true" role="dialog" aria-label="Foto ampliada">
+  <button class="fx-det-fechar mono link-sub" id="fx-det-fechar">Fechar ✕</button>
+  <div class="fx-det-foto"><img id="fx-det-img" alt=""><div class="fx-det-blocos" id="fx-det-blocos"></div></div>
+  <div class="fx-det-txt">
+    <p class="mono fx-det-num" id="fx-det-num"></p>
+    <h3 class="mono fx-det-tit" id="fx-det-tit"></h3>
+    <p class="mono fx-det-cli" id="fx-det-cli"></p>
+    <p class="fx-det-desc" id="fx-det-desc"></p>
+    <p class="mono fx-det-cred">Foto: @crizanleone</p>
+    <div class="fx-det-nav"><button class="seta" id="fx-det-ant" aria-label="Foto anterior">←</button><button class="seta" id="fx-det-prox" aria-label="Próxima foto">→</button></div>
+  </div>
+</div>
 
 <!-- ================= INSTAGRAM + COMENTÁRIOS ================= -->
 <section id="instagram" class="claro">
@@ -1254,13 +1318,6 @@ addEventListener('pointerup', () => { if (!arrR) return; arrR = null; reelsLinha
 const banner = document.querySelector('.banner-mko'), bv = banner.querySelector('video');
 new IntersectionObserver(es => { const e = es[0]; banner.classList.toggle('on', e.isIntersecting); if (e.isIntersecting) bv.play().catch(() => {}); else bv.pause(); }, { threshold: .5 }).observe(banner);
 
-if (FOTOS.length) {
-  document.getElementById('fotos').hidden = false;
-  const gradeF = document.getElementById('fotos-grade');
-  const DIM_FOTOS = {'01.jpg':[845,1500],'02.jpg':[845,1500],'03.jpg':[845,1500],'04.jpg':[1000,1500],'05.jpg':[1214,1500],'06.jpg':[1000,1500],'07.jpg':[845,1500],'08.jpg':[845,1500],'09.jpg':[845,1500],'10.jpg':[1000,1500],'11.jpg':[1000,1500],'12.jpg':[844,1500],'13.jpg':[1077,1500],'14.jpg':[1000,1500],'15.jpg':[1000,1500],'16.jpg':[1000,1500],'17.jpg':[1000,1500],'18.jpg':[1203,1500],'19.jpg':[1128,1500],'20.jpg':[1125,1500],'21.jpg':[1125,1500],'22.jpg':[1125,1500],'23.jpg':[1189,1500],'24.jpg':[1000,1500],'bloco-01.jpg':[1162,1500],'bloco-02.jpg':[1500,1162],'bloco-03.jpg':[1212,1500],'bloco-04.jpg':[1000,1500],'bloco-05.jpg':[1334,1500],'bloco-06.jpg':[1131,1500],'bloco-07.jpg':[1217,1500],'bloco-08.jpg':[1131,1500],'bloco-09.jpg':[898,1500],'bloco-10.jpg':[1000,1500],'bloco-11.jpg':[1073,1500],'bloco-12.jpg':[1000,1500],'bloco-13.jpg':[1000,1500],'bloco-14.jpg':[1000,1500],'bloco-15.jpg':[1000,1500],'bloco-16.jpg':[1246,1500],'bloco-17.jpg':[1500,1173],'bloco-18.jpg':[1158,1500],'bloco-19.jpg':[1000,1500],'bloco-20.jpg':[1312,1500],'bloco-21.jpg':[1000,1500],'bloco-22.jpg':[1500,1181],'bloco-23.jpg':[1000,1500]};
-  gradeF.innerHTML = FOTOS.map(([src, alt], i) => { const d = DIM_FOTOS[src.split('/').pop()] || [1000, 1500]; return '<img class="rev" loading="lazy" data-i="' + i + '" src="' + src + '" width="' + d[0] + '" height="' + d[1] + '" alt="' + (alt || '') + '">'; }).join('');
-  gradeF.addEventListener('click', e => { const im = e.target.closest('img'); if (im) abrirFoto(+im.dataset.i); });
-}
 let fotoAtual = -1;
 function abrirFoto(i){
   fotoAtual = (i + FOTOS.length) % FOTOS.length;
@@ -1311,6 +1368,7 @@ addEventListener('resize', () => { layout(); });
 if (document.fonts) Promise.all([document.fonts.load('600 16px Archivo'), document.fonts.load('500 16px Archivo')]).then(() => layout()).catch(() => {});
 requestAnimationFrame(loop);
 </script>
+<script src="carrossel.js" defer></script>
 <style id="anim-entrada">
 /* =========================================================
    ENTRADAS DE CENA — cada seção monta em sequência ao aparecer
