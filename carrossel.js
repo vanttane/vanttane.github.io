@@ -14,19 +14,49 @@
     BOP: { nome: 'BLOCO OS PIORES', cliente: 'Carnaval com Vibe',
       desc: 'Carnaval de rua com o Bloco Os Piores e a ativação da Vibe: multidão, palco e gente de verdade na frente da câmera.' },
   };
-  // [arquivo do carrossel, foto grande, projeto, largura, altura]
+  // [foto, projeto, largura, altura] — versão leve em fotos/carrossel/, grande em fotos/
   const FOTOS = [
-    ['c01', '01', 'AF', 563, 1000], ['c02', 'bloco-01', 'BOP', 774, 1000], ['c03', '03', 'AF', 563, 1000],
-    ['c04', 'bloco-02', 'BOP', 1000, 774], ['c05', '07', 'AF', 563, 1000], ['c06', '08', 'AF', 563, 1000],
-    ['c07', 'bloco-05', 'BOP', 889, 1000], ['c08', '09', 'AF', 563, 1000], ['c09', '10', 'AF', 666, 1000],
-    ['c10', 'bloco-08', 'BOP', 754, 1000], ['c11', '13', 'AF', 718, 1000], ['c12', '14', 'AF', 666, 1000],
-    ['c13', 'bloco-11', 'BOP', 715, 1000], ['c14', '16', 'AF', 666, 1000], ['c15', '20', 'AF', 750, 1000],
-    ['c16', 'bloco-16', 'BOP', 830, 1000], ['c17', '21', 'AF', 750, 1000], ['c18', 'bloco-19', 'BOP', 666, 1000],
-    ['c19', '23', 'AF', 792, 1000], ['c20', 'bloco-20', 'BOP', 874, 1000],
+    ['a-01', 'AF', 666, 1000],
+    ['01', 'AF', 563, 1000],
+    ['bloco-02', 'BOP', 1000, 774],
+    ['a-06', 'AF', 666, 1000],
+    ['13', 'AF', 718, 1000],
+    ['bloco-11', 'BOP', 715, 1000],
+    ['a-07', 'AF', 666, 1000],
+    ['08', 'AF', 563, 1000],
+    ['bloco-05', 'BOP', 889, 1000],
+    ['a-08', 'AF', 752, 1000],
+    ['10', 'AF', 666, 1000],
+    ['bloco-03', 'BOP', 808, 1000],
+    ['a-04', 'AF', 666, 1000],
+    ['16', 'AF', 666, 1000],
+    ['bloco-19', 'BOP', 666, 1000],
+    ['a-02', 'AF', 666, 1000],
+    ['21', 'AF', 750, 1000],
+    ['bloco-06', 'BOP', 754, 1000],
+    ['a-05', 'AF', 666, 1000],
+    ['14', 'AF', 666, 1000],
+    ['bloco-12', 'BOP', 666, 1000],
+    ['a-09', 'AF', 666, 1000],
+    ['07', 'AF', 563, 1000],
+    ['bloco-08', 'BOP', 754, 1000],
+    ['a-03', 'AF', 666, 1000],
+    ['23', 'AF', 792, 1000],
+    ['bloco-10', 'BOP', 666, 1000],
+    ['a-10', 'AF', 750, 1000],
+    ['09', 'AF', 563, 1000],
+    ['bloco-16', 'BOP', 830, 1000],
+    ['03', 'AF', 563, 1000],
+    ['bloco-17', 'BOP', 1000, 782],
+    ['20', 'AF', 750, 1000],
+    ['bloco-18', 'BOP', 772, 1000],
+    ['bloco-01', 'BOP', 774, 1000],
+    ['bloco-22', 'BOP', 1000, 787],
+    ['bloco-20', 'BOP', 874, 1000],
   ];
   const N = FOTOS.length;
   const cont = {}; // numeração por projeto: AF 01, AF 02…
-  const CARDS = FOTOS.map(([c, g, p, w, h]) => { cont[p] = (cont[p] || 0) + 1; return { thumb: 'fotos/carrossel/' + c + '.jpg', grande: 'fotos/' + g + '.jpg', proj: p, cod: p + ' ' + String(cont[p]).padStart(2, '0'), aspecto: w / h }; });
+  const CARDS = FOTOS.map(([g, p, w, h]) => { cont[p] = (cont[p] || 0) + 1; return { thumb: 'fotos/carrossel/' + g + '.jpg', grande: 'fotos/' + g + '.jpg', proj: p, cod: p + ' ' + String(cont[p]).padStart(2, '0'), aspecto: w / h }; });
 
   const sec = document.getElementById('fotos');
   const palco = document.getElementById('fx-palco');
@@ -38,12 +68,21 @@
   const contEl = document.getElementById('fx-cont');
   const modoBtn = document.getElementById('fx-modo');
   const reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // pular as fotos: vai direto para a próxima seção
+  const pular = document.getElementById('fx-pular');
+  if (pular) pular.addEventListener('click', e => {
+    e.preventDefault();
+    let prox = sec.nextElementSibling;
+    while (prox && prox.tagName !== 'SECTION') prox = prox.nextElementSibling;
+    if (typeof window.irSecao === 'function' && prox && prox.id) window.irSecao(prox.id);
+    else if (prox) prox.scrollIntoView({ behavior: 'smooth' });
+  });
   const pad = n => String(n).padStart(2, '0');
 
   // ---------------- tamanho da seção (rolagem) ----------------
   let SEGF = 0, secTop = 0;
   function medirSecao() {
-    SEGF = Math.max(140, innerHeight * .26);
+    SEGF = Math.max(70, innerHeight * .13);
     sec.style.height = (innerHeight + (N - 1) * SEGF) + 'px';
     secTop = sec.getBoundingClientRect().top + scrollY;
   }
@@ -259,9 +298,9 @@
       cam.right = W; cam.bottom = -H; cam.updateProjectionMatrix();
       vidroMat.uniforms.uRes.value.set(W, H);
       // grade 5 x 4 centralizada
-      const cols = mob ? 4 : 5, rows = Math.ceil(N / cols), gap = W * .01;
-      let gw = mob ? W * .2 : W * .13; let gh = gw / .68;
-      const maxH = H * .62; if (rows * gh + (rows - 1) * gap > maxH) { gh = (maxH - (rows - 1) * gap) / rows; gw = gh * .68; }
+      const cols = mob ? 5 : 8, rows = Math.ceil(N / cols), gap = W * (mob ? .012 : .006);
+      let gw = mob ? W * .17 : W * .085; let gh = gw / .68;
+      const maxH = H * (mob ? .6 : .64); if (rows * gh + (rows - 1) * gap > maxH) { gh = (maxH - (rows - 1) * gap) / rows; gw = gh * .68; }
       const tw = cols * gw + (cols - 1) * gap, th = rows * gh + (rows - 1) * gap;
       const x0 = (W - tw) / 2, y0 = (H - th) / 2 - H * .01;
       gridRects = CARDS.map((_, i) => [x0 + (i % cols) * (gw + gap), y0 + Math.floor(i / cols) * (gh + gap), gw, gh]);
